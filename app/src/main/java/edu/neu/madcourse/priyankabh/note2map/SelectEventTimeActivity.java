@@ -13,7 +13,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,14 +27,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
 import edu.neu.madcourse.priyankabh.note2map.models.User;
 
 import static edu.neu.madcourse.priyankabh.note2map.Note2MapChooseNoteType.NOTE_TYPE;
 import static edu.neu.madcourse.priyankabh.note2map.Note2MapMainActivity.isNetworkAvailable;
-
-/**
- * Created by priya on 4/11/2017.
- */
 
 public class SelectEventTimeActivity extends AppCompatActivity {
     final static String NOTE_TIME = "note_time";
@@ -93,7 +89,7 @@ public class SelectEventTimeActivity extends AppCompatActivity {
             public void onReceive(Context context, Intent intent) {
                 boolean isNetworkAvailable = intent.getBooleanExtra(Note2MapDetectNetworkActivity.IS_NETWORK_AVAILABLE, false);
                 String networkStatus = isNetworkAvailable ? "connected" : "disconnected";
-                Log.d("networkStatus",networkStatus);
+
                 if(networkStatus.equals("connected")){
                     if(dialog!=null && dialog.isShowing()){
                         dialog.cancel();
@@ -129,9 +125,8 @@ public class SelectEventTimeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         startTime = (TextView) findViewById(R.id.startValue);
-        ////////////////////////////////////////////////////////////////////////////////////////////////
+
         ///////////////////////////////////////////Dropdown fo duration/////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////
 
         durationSpinner = (Spinner) findViewById(R.id.endValue);
 
@@ -161,7 +156,6 @@ public class SelectEventTimeActivity extends AppCompatActivity {
         });
 
         //////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////
 
         Calendar datetime = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH : mm ");

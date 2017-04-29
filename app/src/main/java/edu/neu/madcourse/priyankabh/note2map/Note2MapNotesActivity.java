@@ -15,7 +15,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +26,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import edu.neu.madcourse.priyankabh.note2map.models.Note;
 import edu.neu.madcourse.priyankabh.note2map.models.User;
 
@@ -58,7 +58,7 @@ public class Note2MapNotesActivity extends AppCompatActivity {
             public void onReceive(Context context, Intent intent) {
                 boolean isNetworkAvailable = intent.getBooleanExtra(Note2MapDetectNetworkActivity.IS_NETWORK_AVAILABLE, false);
                 String networkStatus = isNetworkAvailable ? "connected" : "disconnected";
-                Log.d("networkStatus:Notes",networkStatus);
+
                 if(networkStatus.equals("connected")){
                     if(dialog!=null && dialog.isShowing()){
                         dialog.cancel();

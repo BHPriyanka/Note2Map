@@ -10,7 +10,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
+
 import edu.neu.madcourse.priyankabh.note2map.models.User;
 
 import static edu.neu.madcourse.priyankabh.note2map.Note2MapMainActivity.isNetworkAvailable;
@@ -47,7 +47,7 @@ public class Note2MapChooseUsername extends AppCompatActivity {
             public void onReceive(Context context, Intent intent) {
                 boolean isNetworkAvailable = intent.getBooleanExtra(Note2MapDetectNetworkActivity.IS_NETWORK_AVAILABLE, false);
                 String networkStatus = isNetworkAvailable ? "connected" : "disconnected";
-                Log.d("networkStatus:Notes",networkStatus);
+
                 if(networkStatus.equals("connected")){
                     if(dialog!=null && dialog.isShowing()){
                         dialog.cancel();
@@ -97,7 +97,6 @@ public class Note2MapChooseUsername extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 User user = dataSnapshot.getValue(User.class);
                 usernames.add(user.username.toLowerCase());
-                Log.d("log users", usernames.toString().toLowerCase());
             }
 
             @Override

@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -13,9 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -129,9 +126,6 @@ public class MyLocationService extends IntentService implements GoogleApiClient.
     public void onLocationChanged(Location location) {
         if (timer > 0) {
             mCurrentLocation = location;
-            //Log.d("locationchangeService", "Long: " + String.valueOf(mCurrentLocation.getLatitude()) + ", Lat: " + String.valueOf(mCurrentLocation.getLongitude()));
-            //mDatabase.child("users").child(FirebaseInstanceId.getInstance().getToken()).child("coordinates").setValue(Integer.toString(timer) + ") Long: " + String.valueOf(mCurrentLocation.getLatitude()) + ", Lat: " + String.valueOf(mCurrentLocation.getLongitude()));
-            //Log.d("note", Integer.toString(listOfNotes.size()));
             checkDistance();
             timer--;
             try {
@@ -141,7 +135,6 @@ public class MyLocationService extends IntentService implements GoogleApiClient.
             }
         } else {
             mDatabase.child("users").child(FirebaseInstanceId.getInstance().getToken()).child("notes").setValue(listOfNotes);
-            //Log.d("StoppingService", "");
             stopLocationUpdates();
             stopSelf();
         }
@@ -169,11 +162,9 @@ public class MyLocationService extends IntentService implements GoogleApiClient.
                     noteContent.noteReceived = "notReceived";
                 }
                 if (noteContent.noteReceived.equals("received")) {
-                    Log.d("note", "note received");
                     continue;
                 }
                 if( !note.targetedUsers.contains(FirebaseInstanceId.getInstance().getToken())) {
-                    Log.d("note", "you own this");
                     continue;
                 }
                 DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
@@ -189,12 +180,8 @@ public class MyLocationService extends IntentService implements GoogleApiClient.
                     String newDateString1 = df.format(startTime);
                     String newDateString2 = df.format(endTime);
                     String newDateString3 = df.format(currentTime);
-                    //Log.d("startTime", newDateString1);
-                    //Log.d("endTime", newDateString2);
-                    //Log.d("currentTime", newDateString3);
 
                     if (currentTime.before(startTime) || currentTime.after(endTime)) {
-                        Log.d("note", "too late");
                         continue;
                     }
 
@@ -203,7 +190,6 @@ public class MyLocationService extends IntentService implements GoogleApiClient.
                 }
                 String latLongString[] = noteContent.getNoteCoordinates().split(",");
                 Double distance = distanceBetweenCoordinates(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), Double.parseDouble(latLongString[0]),Double.parseDouble(latLongString[1]));
-                //Log.d("distance", Double.toString(distance));
                 if (distance < 0.15) {
                     sendNotification(listOfNotes.get(i).owner, note.noteType + ": \nOn " + note.getNoteDate() + " at " + note.getStartTime() + "\n" + noteContent.getNoteText());
                     noteContent.noteReceived = "received";
@@ -212,7 +198,6 @@ public class MyLocationService extends IntentService implements GoogleApiClient.
                 }
             }
         }
-        //mDatabase.child("users").child(FirebaseInstanceId.getInstance().getToken()).child("notes").setValue(listOfNotes);
     }
 
     private double distanceBetweenCoordinates(double lat1, double lon1, double lat2, double lon2) {
@@ -248,8 +233,8 @@ public class MyLocationService extends IntentService implements GoogleApiClient.
         //Define sound URI
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-    // build notification
-    // the addAction re-use the same intent to keep the example short
+        // build notification
+        // the addAction re-use the same intent to keep the example short
         Notification n  = new Notification.Builder(this)
                 .setContentTitle(title)
                 .setContentText(message)
@@ -265,6 +250,5 @@ public class MyLocationService extends IntentService implements GoogleApiClient.
         Random random = new Random();
         int m = random.nextInt(1000);
         notificationManager.notify(m, n);
-        Log.d("notification", message);
     }
 }

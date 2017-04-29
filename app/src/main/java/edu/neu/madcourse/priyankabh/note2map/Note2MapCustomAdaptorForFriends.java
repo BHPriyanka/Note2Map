@@ -12,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+
 import java.util.ArrayList;
+
 import edu.neu.madcourse.priyankabh.note2map.models.User;
 
 public class Note2MapCustomAdaptorForFriends extends ArrayAdapter {

@@ -15,16 +15,8 @@ public class NoteContent implements Serializable{
         return noteCoordinates;
     }
 
-    public void setNoteCoordinates(String noteCoordinates) {
-        this.noteCoordinates = noteCoordinates;
-    }
-
     public String getNoteText() {
         return noteText;
-    }
-
-    public void setNoteText(String noteText) {
-        this.noteText = noteText;
     }
 
     public NoteContent(){

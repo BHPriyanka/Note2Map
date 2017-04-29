@@ -60,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import edu.neu.madcourse.priyankabh.note2map.models.Note;
 import edu.neu.madcourse.priyankabh.note2map.models.NoteContent;
 import edu.neu.madcourse.priyankabh.note2map.models.User;
@@ -107,7 +108,7 @@ public class Note2MapSearchLocationActivity extends AppCompatActivity implements
             public void onReceive(Context context, Intent intent) {
                 boolean isNetworkAvailable = intent.getBooleanExtra(Note2MapDetectNetworkActivity.IS_NETWORK_AVAILABLE, false);
                 String networkStatus = isNetworkAvailable ? "connected" : "disconnected";
-                Log.d("networkStatus:Notes",networkStatus);
+
                 if(networkStatus.equals("connected")){
                     if(dialog!=null && dialog.isShowing()){
                         dialog.cancel();
@@ -171,7 +172,6 @@ public class Note2MapSearchLocationActivity extends AppCompatActivity implements
 
         editTextView = (EditText) findViewById(R.id.n2m_edit_note);
         Button createNote = (Button) findViewById(R.id.n2m_create_note);
-
 
         listofLocationMarker = new ArrayList<>();
         listofNoteContents = new ArrayList<>();
@@ -307,18 +307,13 @@ public class Note2MapSearchLocationActivity extends AppCompatActivity implements
                             if (!currentUser.notes.contains(newNote)) {
                                 currentUser.notes.add(newNote);
                             }
-                    /*for (int n = 0; n < currentUser.notes.size(); n++) {
-                        if (!currentUser.notes.get(n).getNoteId().equals(newNote.getNoteId())) {
-                            currentUser.notes.add(newNote);
-                        }
-                    }*/
                         }
                     }
                     mDatabase.child("users").child(FirebaseInstanceId.getInstance().getToken()).setValue(currentUser);
 
                     for (; counterI < listOftargetedUsers.size(); counterI++) {
                         final String addNotestoTargetUsers = listOftargetedUsers.get(counterI);
-                        //getting the list of notes:
+
                         if (addNotestoTargetUsers != "") {
                             mDatabase.child("users").child(addNotestoTargetUsers).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -364,7 +359,6 @@ public class Note2MapSearchLocationActivity extends AppCompatActivity implements
         try {
             if (point != null) {
                 addresses = geocoder.getFromLocation(point.latitude, point.longitude, 1);
-                Log.d("ssssss", point.latitude + "," + point.longitude);
             }
         }catch (IOException ie){
             ie.printStackTrace();
@@ -379,7 +373,7 @@ public class Note2MapSearchLocationActivity extends AppCompatActivity implements
 
         // Handle case where no address was found.
         if (addresses == null || addresses.size()  == 0) {
-            Log.d("SearchLocationActivity","No addresses found for given coordinates");
+            Log.e("SearchLocationActivity","No addresses found for given coordinates");
         } else {
             Address address = addresses.get(0);
             ArrayList<String> addressFragments = new ArrayList<String>();
@@ -516,8 +510,7 @@ public class Note2MapSearchLocationActivity extends AppCompatActivity implements
             // Extract the Place descriptions from the results
             resultList = new ArrayList(predsJsonArray.length());
             for (int i = 0; i < predsJsonArray.length(); i++) {
-                System.out.println(predsJsonArray.getJSONObject(i).getString("description"));
-                System.out.println("============================================================");
+                //System.out.println(predsJsonArray.getJSONObject(i).getString("description"));
                 resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
             }
         } catch (JSONException e) {
@@ -644,7 +637,6 @@ public class Note2MapSearchLocationActivity extends AppCompatActivity implements
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-                    Log.d("aaaaaa","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                     marker.showInfoWindow();
                     locationMarker = marker;
                     noteContent = listofNoteContents.get(listofLocationMarker.indexOf(marker));
@@ -653,7 +645,6 @@ public class Note2MapSearchLocationActivity extends AppCompatActivity implements
                 }
             });
             if(!tapNote.equals("true")) {
-                //Log.d("aaaaaa","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
 
                     @Override
@@ -681,7 +672,6 @@ public class Note2MapSearchLocationActivity extends AppCompatActivity implements
                 });
             }
             googleMap.setOnMapClickListener(this);
-            //googleMap.setOnMapLongClickListener(this);
         }
 
     }
